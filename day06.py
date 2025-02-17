@@ -1,35 +1,37 @@
-def print_poly(f_x) -> str:
-    term = len(f_x) - 1
-    poly_expression = "f(x) = "
+# Assignment day06
+# v1.5) https://github.com/inhadeepblue/2024_KEB_datastructure_algorithm 의
+# v0.7 guess number 예제를 자동화하고 로그파일(guess.txt)을 남기도록 코드를 수정하시오.
+# 단, 해당 프로그램이 로그시간을 갖도록 한다
+import random
 
-    for i in range(len(fx)):
-        coefficient = f_x[i]
+def guess_number(low, high, answer, chance) -> int:
+    mid =  (low+high) // 2
+    print(f'Guess number is {mid}')
+    fp.write(f'Guess number is {mid}\n')
+    while chance != 0:
+        if mid == answer:
+            print(f'You win. Answer is {answer}')
+            fp.write(f'You win. Answer is {answer}\n')
+            return
+        elif mid > answer:
+            chance = chance - 1
+            print(f'{mid} is bigger. Chance left : {chance}')
+            fp.write(f'{mid} is bigger. Chance left : {chance}\n')
+            return guess_number(low, mid-1, answer, chance)
+        else:
+            chance = chance - 1
+            print(f'{mid} is lower. Chance left : {chance}')
+            fp.write(f'{mid} is lower. Chance left : {chance}\n')
+            return guess_number(mid+1, high, answer, chance)
+    else:
+        print(f'You lost. Answer is {answer}')
+        fp.write(f'You lost. Answer is {answer}')
 
-        if coefficient >= 0:
-            poly_expression = poly_expression + "+"
-        poly_expression = poly_expression + f'{coefficient}x^{term} '
-        term = term - 1
-
-    return poly_expression
-
-
-def calculation_poly(x_value, f_x, t_x) -> int:
-    return_value = 0
-    # term = len(f_x) - 1
-
-    for i in range(len(fx)):
-        coefficient = f_x[i]
-        term = t_x[i]
-        return_value += coefficient * pow(x_value, term)
-        # term = term - 1
-
-    return return_value
-
-
-# fx = [2, 3, 4, 0, -9]
-fx = [2, 5, -9, 11]
-tx = [20, 7, 2, 0]
 
 if __name__ == "__main__":
-    print(print_poly(fx))
-    print(calculation_poly(int(input("x 값 : ")), fx, tx))
+    low = 1
+    high = 100
+    chance = 7
+    answer = random.randint(low, high)
+    with open('guess.txt', 'w') as fp:
+        guess_number(low, high, answer, chance)
