@@ -1,25 +1,23 @@
-class Stack:
+class Node:
+    def __init__(self, data, next = None):
+        self.data = data
+        self.next = next
+
+
+class LinkedList:
     def __init__(self):
-        self.items = list()
+        self.head = None
 
-    def push(self, data):
-       self.items.append(data)
+    def append(self, data):
+        if not self.head:
+            self.head = Node(data)
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = Node(data)
 
-    def pop(self):
-        return self.items.pop()
-
-    def size(self) -> int:
-        return len(self.items)
-
-    def peek(self)-> object:
-        return self.items[-1]
-
-    def is_empty(self) -> bool:
-        return len(self.items) == 0
-
-s1 = Stack()
-s1.push(-9)
-s1.push(11)
-s1.push(977)
-print(s1.pop())
-print(s1.peek())
+if __name__ == "__main__":
+    l = LinkedList()
+    l.append(7)
+    l.append(8)
