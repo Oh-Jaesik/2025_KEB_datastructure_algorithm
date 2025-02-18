@@ -35,3 +35,4 @@ if __name__ == "__main__":
     answer = random.randint(low, high)
     with open('guess.txt', 'w') as fp:
         guess_number(low, high, answer, chance)
+
