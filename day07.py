@@ -1,41 +1,70 @@
-class Node:
-    def __init__(self, data, next = None):
-        self.data = data
-        self.next = next
+def is_queue_full() :
+    global size, queue, front ,rear
+    if rear != size - 1:
+        return False
+    elif (front == -1) and (rear == size-1):
+        return True
+    else:
+        for i in range(front+1, size):
+            queue[i-1] = queue[i]
+            queue[i] = None
+        front = front - 1
+        rear = rear -1
+        return False
 
-class Queue:
-    def __init__(self):
-        self.front = None
-        self.rear = None
-        self._size = 0
+def is_queue_empty() :
+    global size, queue, front, rear
+    if front == rear:
+        return True
+    else :
+        return False
 
-    def enqueue(self, item):
-        self._size += 1
-        node = Node(item)
-        if self.rear is None:
-            self.front = node
-            self.rear = node
+def en_queue(data) :
+    global size, queue, front, rear
+    if is_queue_full():
+        print("큐가 꽉 찼습니다.")
+        return
+
+    rear += 1
+    queue[rear] = data
+
+def de_queue() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    front += 1
+    data = queue[front]
+    queue[front] = None
+    return data
+
+def peek() :
+    global size, queue, front, rear
+    if is_queue_empty():
+        print("큐가 비었습니다.")
+        return None
+    return queue[front+1]
+
+
+size = int(input("큐의 크기를 입력 : "))
+queue = [None for _ in range(size)]
+front = rear = -1
+
+if __name__ == "__main__" :
+    while True:
+        menu = input("삽입(E)/삭제(D)/확인(P)/종료(X) : ")
+        if menu == 'X' or menu == 'x':
+            break
+        elif menu== 'E' or menu == 'e' :
+            data = input("입력할 데이터 : ")
+            en_queue(data)
+            print(queue)
+        elif menu== 'D' or menu == 'd' :
+            print("삭제된 데이터 : ", de_queue())
+            print(queue)
+        elif menu== 'P' or menu == 'p' :
+            print("확인된 데이터 : ", peek())
+            print(queue)
         else:
-            self.rear.next = node
-            self.rear = node
-
-    def dequeue(self):
-        if self.front is None:
-            raise IndexError('pop from empty queue')
-        self._size -= 1
-        temp = self.front
-        self.front = self.front.next
-        if self.front is None:
-            self.rear = None
-            return temp.data
-
-    def size(self):
-        return self._size
-
-q = Queue()
-q.enqueue(1)
-q.enqueue(2)
-q.enqueue(3)
-print(q.size())
-for i in range(3):
-    print(q.dequeue())
+            print("입력이 잘못됨")
+    print("프로그램 종료!")
