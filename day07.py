@@ -1,68 +1,50 @@
-def is_queue_full() :
-    global size, queue, front, rear
-    if (rear + 1) % size == front:  # !
-        return True
-    else:
-        return False
+class TreeNode:
+	def __init__(self):
+		self.left = None
+		self.data = None
+		self.right = None
 
 
-def is_queue_empty() :
-    global size, queue, front, rear
-    if front == rear:
-        return True
-    else :
-        return False
+if __name__ == "__main__":
+    numbers = [10, 15, 8, 3, 9]
+    root = None
 
+    node = TreeNode()
+    node.data = numbers[0]
+    root = node
 
-def en_queue(data) :
-    global size, queue, front, rear
-    if is_queue_full():
-        print("큐가 꽉 찼습니다.")
-        return
-    #rear += 1
-    rear = (rear + 1) % size  # !
-    queue[rear] = data
+    for group in numbers[1:]:
+        node = TreeNode()
+        node.data = group
+        current = root
+        while True:
+            if group < current.data:
+                if current.left is None:
+                    current.left = node
+                    break
+                current = current.left  # move
+            else:
+                if current.right is None:
+                    current.right = node
+                    break
+                current = current.right  # move
 
+    print("BST 구성 완료")
 
-def de_queue() :
-    global size, queue, front, rear
-    if is_queue_empty():
-        print("큐가 비었습니다.")
-        return None
-    #front += 1
-    front = (front + 1) % size  # !
-    data = queue[front]
-    queue[front] = None
-    return data
+    find_group = int(input())
 
-
-def peek() :
-    global size, queue, front, rear
-    if is_queue_empty():
-        print("큐가 비었습니다.")
-        return None
-    return queue[(front + 1) % size]  # !
-
-
-size = int(input("큐의 크기를 입력 : "))
-queue = [None for _ in range(size)]
-front = rear = 0  # !
-
-if __name__ == "__main__" :
+    current = root
     while True:
-        menu = input("삽입(E)/삭제(D)/확인(P)/종료(X) : ")
-        if menu == 'X' or menu == 'x':
+        if find_group == current.data:
+            print(f"{find_group}을(를) 찾았습니다")
             break
-        elif menu== 'E' or menu == 'e' :
-            data = input("입력할 데이터 : ")
-            en_queue(data)
-            print(queue)
-        elif menu== 'D' or menu == 'd' :
-            print("삭제된 데이터 : ", de_queue())
-            print(queue)
-        elif menu== 'P' or menu == 'p' :
-            print("확인된 데이터 : ", peek())
-            print(queue)
+        elif find_group < current.data:
+            if current.left is None:
+                print(f"{find_group}이(가) 존재하지 않습니다")
+                break
+            current = current.left
         else:
-            print("입력이 잘못됨")
-    print("프로그램 종료!")
+            if current.right is None:
+                print(f"{find_group}이(가) 존재하지 않습니다")
+                break
+            current = current.right
