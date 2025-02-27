@@ -1,6 +1,6 @@
 def is_queue_full() :
-    global size, queue, front ,rear
-    if rear != size - 1:
+    global size, queue, front, rear
+    if rear != (size - 1):
         return False
     elif (front == -1) and (rear == size-1):
         return True
@@ -9,8 +9,9 @@ def is_queue_full() :
             queue[i-1] = queue[i]
             queue[i] = None
         front = front - 1
-        rear = rear -1
+        rear = rear - 1
         return False
+
 
 def is_queue_empty() :
     global size, queue, front, rear
@@ -24,7 +25,6 @@ def en_queue(data) :
     if is_queue_full():
         print("큐가 꽉 찼습니다.")
         return
-
     rear += 1
     queue[rear] = data
 
